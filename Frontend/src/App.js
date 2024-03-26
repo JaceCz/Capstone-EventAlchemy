@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Link, Routes, Route } from 'react-router-dom';
 import GameForm from './GameForm';
 import GameList from './GameList';
+import axios from 'axios';
 
 function App() {
   const [games, setGames] = useState([]);
@@ -12,10 +13,8 @@ function App() {
 
   const fetchGames = async () => {
     try {
-      const response = await fetch(//TODO: Set up API
-      );
-      const data = await response.json();
-      setGames(data);
+      const response = await axios.get('http://localhost:3000/games');
+      setGames(response.data); 
     } catch (error) {
       console.error('Error fetching games:', error);
     }
@@ -23,8 +22,7 @@ function App() {
 
   const submitNewGame = async (newGameDetails) => {
     try {
-      const response = await fetch(//API URL Here
-       {
+      const response = await fetch('https://example.com/api/games', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -46,11 +44,9 @@ function App() {
         </header>
 
         <section className="content">
-          <Switch>
-            <Route path="/add-game">
-              <GameForm onSubmit={submitNewGame} />
-            </Route>
-            <Route path="/">
+          <Routes>
+            <Route path="/add-game" element={<GameForm onSubmit={submitNewGame} />} />
+            <Route path="/" element={
               <div className="game-list">
                 <h2>Available Games</h2>
                 <GameList games={games} />
@@ -58,8 +54,8 @@ function App() {
                   <button>Add New Game</button>
                 </Link>
               </div>
-            </Route>
-          </Switch>
+            } />
+          </Routes>
         </section>
       </div>
     </Router>
