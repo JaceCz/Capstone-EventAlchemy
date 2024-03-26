@@ -1,15 +1,11 @@
 const mongoose = require('mongoose');
 
+const gameSchema = mongoose.Schema({
+    managerName: { type: String, required: true },
+    scheduledDateTime: { type: Date, required: true },
+    admission: { type: String, required: true },
+    description: { type: String, required: true },
+    availableSlots: { type: Number, required: true }
+});
 
-
-const eventSchema = mongoose.Schema({
-    name: {type: String, required: true},
-    description: {type: String, required: true},
-    location: {type: String, required: true},
-    date : {type: Date, required: true},
-    cost : {type: Number, required: true},
-    
-})
-
-//must export game schema to index.js to be able to create schema in post route
-module.exports = mongoose.model('Event', eventSchema);
+module.exports = mongoose.model('Game', gameSchema);
